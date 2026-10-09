@@ -13,8 +13,19 @@ Strona z linkami + gra z 8-bitowym Kubą. Bez builda, gotowa pod Vercel.
 3. Settings → Domains → dodaj `links.pankubaka.pl`.
 4. U operatora DNS dodaj rekord: `CNAME  links  →  cname.vercel-dns.com`.
 
+## Statystyki i panel (/admin)
+1. Vercel → projekt → **Storage** → Create / Marketplace → **Upstash Redis** (plan darmowy) → Connect do projektu.
+   Vercel sam doda zmienne `KV_REST_API_URL` i `KV_REST_API_TOKEN`.
+2. Settings → Environment Variables → dodaj `ADMIN_PASSWORD` (hasło do panelu) i `STATS_SALT` (dowolny losowy ciąg).
+3. Redeploy. Panel: `links.pankubaka.pl/admin`.
+
+Co jest liczone: odsłony, unikalni odwiedzający (dziennie), kliknięcia w każdy link, skopiowane kody, źródła wejść,
+telefon/komputer, ukończone maratony w grze. Bez cookies; IP nie jest zapisywane (tylko skrót, który zmienia się codziennie).
+Boty są odfiltrowywane. Dane trzymane ~13 miesięcy.
+Źródła: dodawaj `?ref=instagram`, `?ref=youtube` itd. do linków w bio.
+
 ## Edycja
-- Linki, opisy, kody: `SECTIONS` w `index.html`.
+- Linki, opisy, kody: `links.js` (z niego korzysta strona i panel).
 - Film w „Najnowszy odcinek” ustawia się sam. Pole `yt` to zapas, gdyby API nie odpowiedziało.
 - Inny kanał dla API: zmienne środowiskowe `YT_HANDLE` / `YT_CHANNEL_ID` w Vercelu.
 - Test easter egga: dopisz `#meta` do adresu.
