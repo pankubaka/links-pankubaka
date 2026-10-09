@@ -1,0 +1,6 @@
+{
+  "name": "links-pankubaka",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=18" }
+}
