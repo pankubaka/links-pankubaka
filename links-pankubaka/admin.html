@@ -86,6 +86,55 @@ code{font-size:12px;background:var(--panel2);padding:1px 5px;color:var(--ink)}
 .login button{font:700 15px var(--f-display);color:#fff;background:var(--red);border:3px solid #000;padding:10px;cursor:pointer}
 .err{color:#ff8b8b;font-size:14px;margin:0;min-height:1em}
 .row-btn{all:unset;cursor:pointer}
+
+a{color:var(--gold)}
+.muted{color:var(--muted);font-size:13px}
+.nav{display:flex;border:3px solid var(--line)}
+.navb{font:600 14px var(--f-display);letter-spacing:.03em;color:var(--muted);background:var(--panel);border:0;padding:8px 14px;cursor:pointer}
+.navb[aria-selected="true"]{background:var(--red);color:#fff}
+.navb:focus-visible,.primary:focus-visible,.ib:focus-visible,.ed input:focus-visible,.ed select:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.view{display:flex;flex-direction:column;gap:18px}
+.range{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+
+/* edytor */
+.fl{display:block;font:600 12px var(--f-display);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+textarea,.ed input,.ed select{width:100%;font:15px var(--f-body);color:var(--ink);background:var(--night);border:2px solid var(--line);padding:8px 10px;min-width:0}
+textarea{resize:vertical}
+.ed input[type=color]{padding:2px;height:40px;cursor:pointer}
+.ed input[type=checkbox]{width:18px;height:18px;padding:0;accent-color:var(--red)}
+.count{display:block;text-align:right;font-size:12px;color:var(--muted);margin-top:4px}
+#ed{display:flex;flex-direction:column;gap:14px}
+.sec-h{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end;margin-bottom:8px}
+.sec-h .name{font:700 18px var(--f-display)}
+.tools{display:flex;gap:4px}
+.ib{font:700 14px var(--f-display);color:var(--ink);background:var(--panel2);border:2px solid var(--line);min-width:34px;height:34px;padding:0 8px;cursor:pointer}
+.ib:hover{border-color:var(--gold)}
+.ib:disabled{opacity:.35;cursor:default}
+.ib.danger{color:#ff8b8b}
+.ib.danger.armed{background:#7a1d1d;color:#fff;border-color:#000}
+.items{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.it{background:var(--panel2);border:2px solid var(--line)}
+.it.off{opacity:.6}
+.it-row{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px}
+.it-row .ico{width:32px;height:32px;display:grid;place-items:center;font:700 12px var(--f-display);color:#fff;border:2px solid #000}
+.it-row .t{font-weight:700;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.it-row .u{font-size:12px;color:var(--muted);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill{font:600 10px var(--f-display);letter-spacing:.06em;text-transform:uppercase;border:1px solid currentColor;padding:2px 5px;margin-left:6px;color:var(--muted);vertical-align:2px}
+.form{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;padding:4px 10px 12px;border-top:2px dashed var(--line)}
+.form > div{min-width:0}
+.c6{grid-column:span 6}.c4{grid-column:span 4}.c3{grid-column:span 3}.c2{grid-column:span 2}.c1{grid-column:span 1}
+@media (max-width:640px){.form{grid-template-columns:repeat(2,minmax(0,1fr))}.c6,.c4,.c3{grid-column:span 2}.c2,.c1{grid-column:span 1}}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px;padding-top:6px}
+.hint2{font-size:12px;color:var(--muted);margin-top:4px}
+.add{align-self:flex-start}
+.add-it{margin-top:10px}
+.savebar{position:sticky;bottom:0;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));background:#0b0916;border:3px solid #000;box-shadow:0 -4px 0 rgba(0,0,0,.4);display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;z-index:5}
+.savebar.dirty{border-color:var(--gold)}
+#save-msg{font-size:14px}
+#save-msg.err{color:#ff8b8b}
+.primary{font:700 15px var(--f-display);color:#fff;background:var(--red);border:3px solid #000;padding:8px 18px;cursor:pointer;box-shadow:3px 3px 0 #000}
+.primary:disabled,.btn:disabled{opacity:.4;cursor:default;box-shadow:none}
+.hrow{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--grid);font-size:14px}
 </style>
 </head>
 <body>
@@ -99,17 +148,27 @@ code{font-size:12px;background:var(--panel2);padding:1px 5px;color:var(--ink)}
 </form>
 
 <div class="wrap" id="app" hidden>
-  <div class="demo" id="demo" hidden>Dane przykładowe · po wdrożeniu panel pokaże prawdziwe liczby</div>
+  <div class="demo" id="demo" hidden>Podgląd: statystyki są przykładowe, zapis linków działa po wdrożeniu</div>
   <div class="top">
-    <div class="who"><img src="avatar.jpg" alt=""><div><h1>Statystyki linków</h1><p>links.pankubaka.pl · dni liczone wg czasu polskiego</p></div></div>
+    <div class="who"><img src="avatar.jpg" alt=""><div><h1>Panel PanKuBaka</h1><p>links.pankubaka.pl · <a href="/" target="_blank" rel="noopener">otwórz stronę ↗</a></p></div></div>
     <div class="controls">
-      <button class="chip" id="r7" data-days="7">7 dni</button>
-      <button class="chip" id="r30" data-days="30">30 dni</button>
-      <button class="chip" id="r90" data-days="90">90 dni</button>
+      <div class="nav" role="tablist">
+        <button class="navb" id="nav-stats" data-view="stats" role="tab">Statystyki</button>
+        <button class="navb" id="nav-edit" data-view="edit" role="tab">Linki</button>
+      </div>
       <button class="btn" id="logout">Wyloguj</button>
     </div>
   </div>
 
+<div id="view-stats" class="view">
+  <div class="range">
+    <span class="muted">Dni liczone wg czasu polskiego</span>
+    <div class="controls">
+      <button class="chip" id="r7" data-days="7">7 dni</button>
+      <button class="chip" id="r30" data-days="30">30 dni</button>
+      <button class="chip" id="r90" data-days="90">90 dni</button>
+    </div>
+  </div>
   <div class="kpis" id="kpis"></div>
 
   <div class="card">
@@ -144,6 +203,28 @@ code{font-size:12px;background:var(--panel2);padding:1px 5px;color:var(--ink)}
       <p class="tip-box">W bio na Instagramie wstaw <code>links.pankubaka.pl?ref=instagram</code>, na YouTube <code>?ref=youtube</code>. Wtedy źródła będą podpisane dokładnie.</p>
     </div>
   </div>
+</div>
+
+<div id="view-edit" class="view" hidden>
+  <div class="card">
+    <label class="fl" for="bio-in">Opis pod imieniem</label>
+    <textarea id="bio-in" maxlength="300" rows="2"></textarea>
+    <span class="count" id="bio-count"></span>
+  </div>
+  <div id="ed"></div>
+  <button class="btn add" id="add-sec">+ Dodaj zakładkę</button>
+  <div class="card">
+    <div class="card-h"><h2>Poprzednie wersje</h2></div>
+    <div id="hist"><p class="empty">Po pierwszym zapisie pojawi się tu 10 ostatnich wersji do przywrócenia.</p></div>
+  </div>
+  <div class="savebar" id="savebar">
+    <span id="save-msg">Brak zmian</span>
+    <div class="controls">
+      <button class="btn" id="discard" disabled>Cofnij zmiany</button>
+      <button class="primary" id="save" disabled>Zapisz</button>
+    </div>
+  </div>
+</div>
 </div>
 
 <script src="links.js"></script>
@@ -197,7 +278,7 @@ async function load(){
   DATA=j.days;render();
 }
 function showLogin(msg){$('app').hidden=true;$('login').hidden=false;$('err').textContent=msg||'';$('pw').focus()}
-$('login').addEventListener('submit',e=>{e.preventDefault();KEY=$('pw').value;try{sessionStorage.setItem('k',KEY)}catch(e){}$('login').hidden=true;$('app').hidden=false;load()});
+$('login').addEventListener('submit',e=>{e.preventDefault();KEY=$('pw').value;try{sessionStorage.setItem('k',KEY)}catch(e){}$('login').hidden=true;$('app').hidden=false;load();if(!ED)loadContent();else loadHistory()});
 $('logout').addEventListener('click',()=>{KEY='';try{sessionStorage.removeItem('k')}catch(e){}if(DEMO)return;showLogin('')});
 document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{RANGE=+b.dataset.days;SEL=null;try{localStorage.setItem('range',RANGE)}catch(e){}load()}));
 
@@ -239,7 +320,7 @@ function detail(){
 const SERIES=[['views','Odsłony','var(--s-views)',''],['unique','Unikalni','var(--s-unique)',''],['clicks','Kliknięcia','var(--s-clicks)','5 4']];
 function nice(m){if(m<=1)return 1;const p=Math.pow(10,Math.floor(Math.log10(m)));const f=m/p;return (f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p}
 function chart(){
-  const box=$('chart'), W=Math.max(300,box.clientWidth), H=W<600?220:260, P={l:40,r:12,t:12,b:26};
+  const box=$('chart');if(!box.clientWidth)return;const W=Math.max(300,box.clientWidth), H=W<600?220:260, P={l:40,r:12,t:12,b:26};
   const n=DATA.length, iw=W-P.l-P.r, ih=H-P.t-P.b;
   const max=nice(Math.max(4,...DATA.map(d=>d.views))/4)*4;
   const x=i=>P.l+(n<2?iw/2:i*iw/(n-1)), y=v=>P.t+ih-v/max*ih;
@@ -271,13 +352,170 @@ function chart(){
 }
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>DATA.length&&chart(),120)});
 
+/* ===== Widoki ===== */
+function view(v){
+  document.querySelectorAll('.navb').forEach(b=>b.setAttribute('aria-selected',b.dataset.view===v));
+  $('view-stats').hidden=v!=='stats';$('view-edit').hidden=v!=='edit';
+  try{localStorage.setItem('view',v)}catch(e){}
+  if(v==='stats'&&DATA.length)chart();
+}
+document.querySelectorAll('.navb').forEach(b=>b.addEventListener('click',()=>view(b.dataset.view)));
+
+/* ===== Edytor linków ===== */
+const BADGE_OPTS=[['','Brak'],['new|Oferta','Oferta'],['new|Nowość','Nowość'],['aff|Afiliacja','Afiliacja'],['aff|Kod','Kod rabatowy']];
+let ED=null, SAVED='', OPEN=new Set(), ARMED=null;
+const clone=o=>JSON.parse(JSON.stringify(o));
+const strip=d=>({bio:d.bio,sections:d.sections.map(s=>({id:s.id,label:s.label,note:s.note||undefined,items:s.items.map(it=>{const o={...it};delete o.s2;delete o._k;return o})}))});
+const snapshot=()=>JSON.stringify(strip(ED));
+let K=0; const key=it=>it._k||(it._k='k'+(++K));
+
+async function loadContent(){
+  let c=null;
+  if(!DEMO){try{const r=await fetch('/api/content',{cache:'no-store'});if(r.status===200)c=await r.json()}catch(e){}}
+  ED=c&&c.sections?{bio:c.bio||'',sections:c.sections}:{bio:window.BIO||'',sections:clone(window.SECTIONS||[])};
+  ED.sections.forEach(s=>s.items.forEach(it=>{delete it.s2}));
+  SAVED=snapshot();OPEN.clear();edRender();loadHistory();
+}
+
+function field(si,ii,f,label,cls,val,type='text',extra=''){
+  const id=`f-${si}-${ii}-${f}`;
+  return `<div class="${cls}"><label class="fl" for="${id}">${label}</label><input id="${id}" type="${type}" data-si="${si}" data-ii="${ii}" data-f="${f}" value="${esc(val??'')}" ${extra}></div>`;
+}
+function itemForm(si,ii,it){
+  const bval=it.badge?it.badge.join('|'):'';
+  const opts=BADGE_OPTS.map(([v,l])=>`<option value="${esc(v)}" ${v===bval?'selected':''}>${l}</option>`).join('')+(bval&&!BADGE_OPTS.some(o=>o[0]===bval)?`<option value="${esc(bval)}" selected>${esc(it.badge[1])}</option>`:'');
+  const secs=ED.sections.map((s,j)=>`<option value="${j}" ${j===si?'selected':''}>${esc(s.label||'(bez nazwy)')}</option>`).join('');
+  return `<div class="form">
+    ${field(si,ii,'t','Tytuł','c4',it.t,'text','maxlength="80" required')}
+    <div class="c2"><label class="fl" for="f-${si}-${ii}-move">Zakładka</label><select id="f-${si}-${ii}-move" data-si="${si}" data-ii="${ii}" data-f="move">${secs}</select></div>
+    ${field(si,ii,'s','Opis','c6',it.s,'text','maxlength="160"')}
+    ${field(si,ii,'url','Adres (https://…)','c6',it.url,'url','maxlength="500" placeholder="https://"')}
+    ${field(si,ii,'ico','Ikona (max 3 znaki)','c1',it.ico,'text','maxlength="3"')}
+    ${field(si,ii,'c','Kolor','c1',it.c||'#3a3358','color')}
+    <div class="c2"><label class="fl" for="f-${si}-${ii}-badge">Etykieta</label><select id="f-${si}-${ii}-badge" data-si="${si}" data-ii="${ii}" data-f="badge">${opts}</select></div>
+    ${field(si,ii,'code','Kod rabatowy','c2',it.code,'text','maxlength="30" placeholder="np. KUBAKA"')}
+    ${field(si,ii,'yt','Film YouTube (pokaże miniaturkę)','c4',it.yt,'url','placeholder="https://youtu.be/…"')}
+    <div class="c2"><label class="chk"><input type="checkbox" data-si="${si}" data-ii="${ii}" data-f="autoVideo" ${it.autoVideo?'checked':''}> Zawsze najnowszy film z kanału</label>
+      <label class="chk"><input type="checkbox" data-si="${si}" data-ii="${ii}" data-f="hidden" ${it.hidden?'checked':''}> Ukryj na stronie</label></div>
+    <div class="c6 tools" style="justify-content:space-between;align-items:center"><span class="hint2">Statystyki: <code>${esc(it.id||'(nadane przy zapisie)')}</code></span>
+      <button class="ib danger ${ARMED==='i'+key(it)?'armed':''}" data-act="del-it" data-si="${si}" data-ii="${ii}">${ARMED==='i'+key(it)?'Na pewno usunąć?':'Usuń link'}</button></div>
+  </div>`;
+}
+function edRender(){
+  $('bio-in').value=ED.bio||'';$('bio-count').textContent=(ED.bio||'').length+'/300';
+  $('ed').innerHTML=ED.sections.map((s,si)=>`
+  <div class="card ed">
+    <div class="sec-h">
+      <div><label class="fl" for="sec-${si}-label">Zakładka ${si+1}</label><input id="sec-${si}-label" data-si="${si}" data-f="label" value="${esc(s.label)}" maxlength="30"></div>
+      <div class="tools">
+        <button class="ib" data-act="sec-up" data-si="${si}" ${si===0?'disabled':''} aria-label="Przesuń zakładkę w lewo">↑</button>
+        <button class="ib" data-act="sec-down" data-si="${si}" ${si===ED.sections.length-1?'disabled':''} aria-label="Przesuń zakładkę w prawo">↓</button>
+        <button class="ib danger ${ARMED==='s'+si?'armed':''}" data-act="del-sec" data-si="${si}">${ARMED==='s'+si?'Usunąć z linkami?':'✕'}</button>
+      </div>
+    </div>
+    <label class="fl" for="sec-${si}-note">Dopisek nad linkami (opcjonalnie)</label>
+    <input id="sec-${si}-note" data-si="${si}" data-f="note" value="${esc(s.note||'')}" maxlength="300" placeholder="np. informacja o linkach afiliacyjnych">
+    <ol class="items">${s.items.map((it,ii)=>`
+      <li class="it ${it.hidden?'off':''}">
+        <div class="it-row">
+          <div class="tools">
+            <button class="ib" data-act="up" data-si="${si}" data-ii="${ii}" ${ii===0?'disabled':''} aria-label="Wyżej">↑</button>
+            <button class="ib" data-act="down" data-si="${si}" data-ii="${ii}" ${ii===s.items.length-1?'disabled':''} aria-label="Niżej">↓</button>
+          </div>
+          <span class="ico" style="background:${/^#[0-9a-f]{6}$/i.test(it.c||'')?it.c:'#3a3358'}">${esc(it.ico||'•')}</span>
+          <div style="min-width:0"><span class="t">${esc(it.t||'(bez tytułu)')}${it.hidden?'<span class="pill">ukryty</span>':''}${it.badge?`<span class="pill">${esc(it.badge[1])}</span>`:''}</span><span class="u">${esc(it.autoVideo?'najnowszy film z kanału':it.url||'brak adresu')}</span></div>
+          <button class="ib" data-act="toggle" data-si="${si}" data-ii="${ii}" aria-expanded="${OPEN.has(key(it))}">${OPEN.has(key(it))?'Zwiń':'Edytuj'}</button>
+        </div>
+        ${OPEN.has(key(it))?itemForm(si,ii,it):''}
+      </li>`).join('')}
+    </ol>
+    <button class="btn add-it" data-act="add-it" data-si="${si}">+ Dodaj link</button>
+  </div>`).join('');
+  dirty();
+}
+function dirty(msg,isErr){
+  const d=snapshot()!==SAVED;
+  $('save').disabled=!d;$('discard').disabled=!d;$('savebar').classList.toggle('dirty',d);
+  const m=$('save-msg');m.classList.toggle('err',!!isErr);
+  m.textContent=msg||(d?'Masz niezapisane zmiany':'Wszystko zapisane');
+}
+const ed=$('ed');
+ed.addEventListener('input',e=>{
+  const el=e.target,f=el.dataset.f;if(!f)return;
+  const si=+el.dataset.si,s=ED.sections[si];
+  if(el.dataset.ii===undefined){s[f]=el.value;return dirty()}
+  const it=s.items[+el.dataset.ii];
+  if(f==='move'||f==='badge')return;
+  if(el.type==='checkbox'){it[f]=el.checked||undefined;edRender();return}
+  it[f]=el.value;
+  if(f==='t'||f==='ico'||f==='c'||f==='url'){const row=el.closest('.it').querySelector('.it-row');row.querySelector('.t').firstChild.textContent=it.t||'(bez tytułu)';row.querySelector('.ico').textContent=it.ico||'•';row.querySelector('.ico').style.background=it.c;if(!it.autoVideo)row.querySelector('.u').textContent=it.url||'brak adresu'}
+  dirty();
+});
+ed.addEventListener('change',e=>{
+  const el=e.target,f=el.dataset.f;if(f!=='move'&&f!=='badge')return;
+  const si=+el.dataset.si,ii=+el.dataset.ii,it=ED.sections[si].items[ii];
+  if(f==='badge'){it.badge=el.value?el.value.split('|'):undefined}
+  else{const to=+el.value;if(to!==si){ED.sections[si].items.splice(ii,1);ED.sections[to].items.push(it);delete it.id}}
+  edRender();
+});
+ed.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;
+  const act=b.dataset.act,si=+b.dataset.si,ii=+b.dataset.ii,S=ED.sections,items=S[si]&&S[si].items;
+  const swap=(arr,i,j)=>{[arr[i],arr[j]]=[arr[j],arr[i]]};
+  if(act!=='del-it'&&act!=='del-sec')ARMED=null;
+  if(act==='up')swap(items,ii,ii-1);
+  else if(act==='down')swap(items,ii,ii+1);
+  else if(act==='sec-up')swap(S,si,si-1);
+  else if(act==='sec-down')swap(S,si,si+1);
+  else if(act==='toggle'){const k=key(items[ii]);OPEN.has(k)?OPEN.delete(k):OPEN.add(k)}
+  else if(act==='add-it'){const it={t:'Nowy link',s:'',url:'https://',ico:'★',c:'#3a7bd5'};items.push(it);OPEN.add(key(it));edRender();const inp=$(`f-${si}-${items.length-1}-t`);if(inp){inp.focus();inp.select()}return}
+  else if(act==='del-it'){const k='i'+key(items[ii]);if(ARMED===k){items.splice(ii,1);ARMED=null}else ARMED=k}
+  else if(act==='del-sec'){if(ARMED==='s'+si){S.splice(si,1);ARMED=null}else ARMED='s'+si}
+  edRender();
+});
+$('bio-in').addEventListener('input',e=>{ED.bio=e.target.value;$('bio-count').textContent=ED.bio.length+'/300';dirty()});
+$('add-sec').addEventListener('click',()=>{ED.sections.push({label:'Nowa zakładka',items:[]});edRender();const i=$(`sec-${ED.sections.length-1}-label`);i.focus();i.select()});
+$('discard').addEventListener('click',()=>{const d=JSON.parse(SAVED);ED=d;OPEN.clear();ARMED=null;edRender()});
+$('save').addEventListener('click',async()=>{
+  if(DEMO)return dirty('W podglądzie zapis jest wyłączony. Po wdrożeniu ten przycisk zapisze zmiany na stronie.',true);
+  const bad=ED.sections.flatMap(s=>s.items).find(it=>!it.autoVideo&&!/^https?:\/\/\S+\.\S+/.test(it.url||'')&&it.url!=='#');
+  if(bad)return dirty(`Popraw adres przy „${bad.t}”. Musi zaczynać się od https://`,true);
+  $('save').disabled=true;dirty('Zapisuję…');
+  try{
+    const r=await fetch('/api/content',{method:'PUT',headers:{'content-type':'application/json','x-admin-key':KEY},body:JSON.stringify(strip(ED))});
+    const j=await r.json().catch(()=>({}));
+    if(r.status===401){showLogin('Sesja wygasła, zaloguj się ponownie');return}
+    if(!r.ok)return dirty(j.error||'Nie udało się zapisać',true);
+    const open=new Set([...OPEN]);ED={bio:j.bio,sections:j.sections};SAVED=snapshot();OPEN=open;edRender();
+    dirty('Zapisano. Strona pokaże zmiany w ciągu kilku sekund.');loadHistory();
+  }catch(e){dirty('Brak połączenia. Spróbuj jeszcze raz.',true)}
+});
+async function loadHistory(){
+  if(DEMO)return;
+  try{
+    const r=await fetch('/api/content?history=1',{headers:{'x-admin-key':KEY}});if(!r.ok)return;
+    const {history}=await r.json();if(!history.length)return;
+    $('hist').innerHTML=history.map(h=>`<div class="hrow"><span>${new Date(h.savedAt).toLocaleString('pl-PL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})} · ${h.links} linków</span><button class="btn" data-restore="${h.n}">Przywróć</button></div>`).join('');
+  }catch(e){}
+}
+$('hist').addEventListener('click',async e=>{
+  const b=e.target.closest('[data-restore]');if(!b)return;
+  if(b.dataset.armed!=='1'){b.dataset.armed='1';b.textContent='Na pewno?';return}
+  const r=await fetch('/api/content?restore='+b.dataset.restore,{method:'POST',headers:{'x-admin-key':KEY}});
+  if(r.ok){const j=await r.json();ED={bio:j.bio,sections:j.sections};SAVED=snapshot();OPEN.clear();edRender();dirty('Przywrócono wersję.');loadHistory()}
+});
+addEventListener('beforeunload',e=>{if(ED&&snapshot()!==SAVED){e.preventDefault();e.returnValue=''}});
+
 /* ---- start: na Vercelu logowanie, poza nim (podgląd) dane przykładowe ---- */
 (async()=>{
   let real=false;
   try{const r=await fetch('/api/stats?days=1',{headers:{'x-admin-key':KEY}});real=r.status===401||r.ok||(r.headers.get('content-type')||'').includes('json')}catch(e){}
-  if(!real||location.hash==='#demo'){DEMO=true;$('demo').hidden=false;$('logout').hidden=true;$('app').hidden=false;return load()}
+  let v='stats';try{v=localStorage.getItem('view')||'stats'}catch(e){}
+  if(location.hash==='#linki')v='edit';
+  view(v);
+  if(!real||location.hash==='#demo'){DEMO=true;$('demo').hidden=false;$('logout').hidden=true;$('app').hidden=false;loadContent();return load()}
   if(!KEY)return showLogin('');
-  $('app').hidden=false;load();
+  $('app').hidden=false;load();loadContent();
 })();
 </script>
 </body>

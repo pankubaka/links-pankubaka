@@ -1,6 +1,7 @@
-/* ===== TREŚCI STRONY — edytuj tutaj =====
-   Każdy link dostaje automatyczny identyfikator do statystyk (sekcja:nazwa).
-   Jeśli zmienisz nazwę linku, a chcesz zachować jego historię kliknięć, dopisz stare id w polu id. */
+/* ===== TREŚCI DOMYŚLNE =====
+   Po wdrożeniu treść edytujesz w panelu /admin → Linki. Ten plik to tylko punkt startowy
+   (używany, dopóki w panelu nic nie zapiszesz, albo gdy baza nie odpowiada). */
+window.BIO = "Opowiem ci o grach Nintendo, pokażę druk 3D i jak (nie) biegać. Nagrywam content wideo i biegam od ponad 10 lat.";
 window.SECTIONS = [
   { id:"sociale", label:"Sociale", items:[
     { t:"YouTube · PanKuBaka", s:"Główny kanał", url:"https://www.youtube.com/@PanKuBaka", ico:"YT", c:"#e0352b" },
@@ -11,8 +12,7 @@ window.SECTIONS = [
     { t:"Facebook", s:"PanKuBaka", url:"https://www.facebook.com/PanKuBaka/", ico:"FB", c:"#2f5fb3" },
   ]},
   { id:"polecane", label:"Polecane", items:[
-    // Najnowszy odcinek: wklej link do filmu w "yt" — miniaturka i link zaciągną się same
-    { t:"Najnowszy odcinek", s:"Wszystkie filmy na kanale PanKuBaka", yt:"https://www.youtube.com/watch?v=GS7T3Kq1npo", url:"https://www.youtube.com/@PanKuBaka/videos", ico:"▶", c:"#e0352b" },
+    { t:"Najnowszy odcinek", s:"Wszystkie filmy na kanale PanKuBaka", autoVideo:true, yt:"https://www.youtube.com/watch?v=GS7T3Kq1npo", url:"https://www.youtube.com/@PanKuBaka/videos", ico:"▶", c:"#e0352b" },
     { t:"Zatrudnij mnie", s:"Wideo, reelsy, relacje z eventów, prowadzenie", url:"https://www.zatrudnij.pankubaka.pl", ico:"HI", c:"#3a7bd5", badge:["new","Oferta"] },
   ]},
   { id:"afiliacje", label:"Afiliacje",
@@ -25,4 +25,5 @@ window.SECTIONS = [
 
 
 window.slug=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ł/g,'l').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-window.linkId=(sec,it)=>it.id||sec.id+':'+slug(it.t);
+window.linkId=(sec,it)=>it.id||sec.id+":"+window.slug(it.t);
+window.SECTIONS.forEach(sec=>sec.items.forEach(it=>{it.id=window.linkId(sec,it)}));

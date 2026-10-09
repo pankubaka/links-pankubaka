@@ -24,8 +24,15 @@ telefon/komputer, ukończone maratony w grze. Bez cookies; IP nie jest zapisywan
 Boty są odfiltrowywane. Dane trzymane ~13 miesięcy.
 Źródła: dodawaj `?ref=instagram`, `?ref=youtube` itd. do linków w bio.
 
-## Edycja
-- Linki, opisy, kody: `links.js` (z niego korzysta strona i panel).
+## Edycja linków w panelu
+`/admin` → zakładka **Linki**: opis pod imieniem, zakładki (nazwa, dopisek, kolejność), linki (tytuł, opis, adres,
+ikona, kolor, etykieta, kod rabatowy, film YouTube, „zawsze najnowszy film”, ukrycie), przenoszenie między zakładkami.
+Zapis trafia do bazy i strona pokazuje go po kilku sekundach, bez nowego wdrożenia.
+Panel trzyma 10 poprzednich wersji do przywrócenia.
+Identyfikator linku do statystyk nadawany jest przy pierwszym zapisie i nie zmienia się po zmianie tytułu.
+
+## Edycja (pliki)
+- `links.js` to treść startowa: działa, dopóki nic nie zapiszesz w panelu (albo gdy baza nie odpowiada).
 - Film w „Najnowszy odcinek” ustawia się sam. Pole `yt` to zapas, gdyby API nie odpowiedziało.
 - Inny kanał dla API: zmienne środowiskowe `YT_HANDLE` / `YT_CHANNEL_ID` w Vercelu.
 - Test easter egga: dopisz `#meta` do adresu.
