@@ -42,6 +42,8 @@ export function clean(input) {
         t, s: str(it.s, 160), url, ico: str(it.ico, 3) || '•', c, badge,
         code: str(it.code, 30) || undefined, yt: yt || undefined,
         autoVideo: it.autoVideo ? true : undefined, hidden: it.hidden ? true : undefined,
+        img: (() => { const v = str(it.img, 500); return v && (okUrl(v) && v !== '#' || /^\/api\/yt-avatar\?handle=[\w.-]+$/.test(v)) ? v : undefined; })(),
+        noAvatar: it.noAvatar ? true : undefined,
       }).filter(([, v]) => v !== undefined)));
     }
     sections.push({ id, label, note: str(s.note, 300) || undefined, items });

@@ -116,7 +116,8 @@ textarea{resize:vertical}
 .it{background:var(--panel2);border:2px solid var(--line)}
 .it.off{opacity:.6}
 .it-row{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px}
-.it-row .ico{width:32px;height:32px;display:grid;place-items:center;font:700 12px var(--f-display);color:#fff;border:2px solid #000}
+.it-row .ico img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.it-row .ico{position:relative;overflow:hidden;width:32px;height:32px;display:grid;place-items:center;font:700 12px var(--f-display);color:#fff;border:2px solid #000}
 .it-row .t{font-weight:700;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .it-row .u{font-size:12px;color:var(--muted);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pill{font:600 10px var(--f-display);letter-spacing:.06em;text-transform:uppercase;border:1px solid currentColor;padding:2px 5px;margin-left:6px;color:var(--muted);vertical-align:2px}
@@ -381,6 +382,12 @@ function field(si,ii,f,label,cls,val,type='text',extra=''){
   const id=`f-${si}-${ii}-${f}`;
   return `<div class="${cls}"><label class="fl" for="${id}">${label}</label><input id="${id}" type="${type}" data-si="${si}" data-ii="${ii}" data-f="${f}" value="${esc(val??'')}" ${extra}></div>`;
 }
+function edIcon(it){
+  if(it.img&&/^https:\/\//.test(it.img))return it.img;
+  if(it.noAvatar)return null;
+  const m=String(it.url||'').match(/^https:\/\/(?:www\.|m\.)?youtube\.com\/@([\w.-]+)\/?$/i);
+  return m?'/api/yt-avatar?handle='+m[1]:null;
+}
 function itemForm(si,ii,it){
   const bval=it.badge?it.badge.join('|'):'';
   const opts=BADGE_OPTS.map(([v,l])=>`<option value="${esc(v)}" ${v===bval?'selected':''}>${l}</option>`).join('')+(bval&&!BADGE_OPTS.some(o=>o[0]===bval)?`<option value="${esc(bval)}" selected>${esc(it.badge[1])}</option>`:'');
@@ -394,6 +401,8 @@ function itemForm(si,ii,it){
     ${field(si,ii,'c','Kolor','c1',it.c||'#3a3358','color')}
     <div class="c2"><label class="fl" for="f-${si}-${ii}-badge">Etykieta</label><select id="f-${si}-${ii}-badge" data-si="${si}" data-ii="${ii}" data-f="badge">${opts}</select></div>
     ${field(si,ii,'code','Kod rabatowy','c2',it.code,'text','maxlength="30" placeholder="np. KUBAKA"')}
+    ${field(si,ii,'img','Obrazek ikony (URL, opcjonalnie)','c4',it.img,'url','placeholder="https://… (kwadratowy JPG/PNG)"')}
+    <div class="c2"><label class="chk"><input type="checkbox" data-si="${si}" data-ii="${ii}" data-f="noAvatar" ${it.noAvatar?'checked':''}> Bez avatara z YouTube</label><span class="hint2">Linki do kanałów YouTube (youtube.com/@…) same pobierają avatar kanału.</span></div>
     ${field(si,ii,'yt','Film YouTube (pokaże miniaturkę)','c4',it.yt,'url','placeholder="https://youtu.be/…"')}
     <div class="c2"><label class="chk"><input type="checkbox" data-si="${si}" data-ii="${ii}" data-f="autoVideo" ${it.autoVideo?'checked':''}> Zawsze najnowszy film z kanału</label>
       <label class="chk"><input type="checkbox" data-si="${si}" data-ii="${ii}" data-f="hidden" ${it.hidden?'checked':''}> Ukryj na stronie</label></div>
@@ -422,7 +431,7 @@ function edRender(){
             <button class="ib" data-act="up" data-si="${si}" data-ii="${ii}" ${ii===0?'disabled':''} aria-label="Wyżej">↑</button>
             <button class="ib" data-act="down" data-si="${si}" data-ii="${ii}" ${ii===s.items.length-1?'disabled':''} aria-label="Niżej">↓</button>
           </div>
-          <span class="ico" style="background:${/^#[0-9a-f]{6}$/i.test(it.c||'')?it.c:'#3a3358'}">${esc(it.ico||'•')}</span>
+          <span class="ico" style="background:${/^#[0-9a-f]{6}$/i.test(it.c||'')?it.c:'#3a3358'}">${esc(it.ico||'•')}${edIcon(it)?`<img alt="" src="${esc(edIcon(it))}" onerror="this.remove()">`:''}</span>
           <div style="min-width:0"><span class="t">${esc(it.t||'(bez tytułu)')}${it.hidden?'<span class="pill">ukryty</span>':''}${it.badge?`<span class="pill">${esc(it.badge[1])}</span>`:''}</span><span class="u">${esc(it.autoVideo?'najnowszy film z kanału':it.url||'brak adresu')}</span></div>
           <button class="ib" data-act="toggle" data-si="${si}" data-ii="${ii}" aria-expanded="${OPEN.has(key(it))}">${OPEN.has(key(it))?'Zwiń':'Edytuj'}</button>
         </div>

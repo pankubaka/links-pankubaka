@@ -5,6 +5,7 @@ Strona z linkami + gra z 8-bitowym Kubą. Bez builda, gotowa pod Vercel.
 ## Pliki
 - `index.html` – cała strona (treści linków: obiekt `SECTIONS` na początku skryptu)
 - `avatar.jpg` – avatar i obrazek do podglądu linku (og:image)
+- `api/yt-avatar.js` – avatar kanału YouTube do ikon linków (cache 1 dzień)
 - `api/latest-video.js` – zwraca najnowszy film z kanału PanKuBaka (bez shortsów), cache 30 min
 
 ## Wdrożenie
